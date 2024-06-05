@@ -1,0 +1,251 @@
+{
+	"name": "vscode-inote",
+	"displayName": "VSCodeINote",
+	"description": "我的笔记",
+	"version": "0.0.1",
+	"icon": "res/logo.png",
+	"main": "./out/extension.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/wetiontop/vscode-inode"
+	},
+	"bugs": {
+		"url": "https://github.com/wetiontop/vscode-inode/issues",
+		"email": "wetiontop@gmail.com"
+	},
+	"engines": {
+		"vscode": "^1.89.0"
+	},
+	"categories": [
+		"Other",
+		"Snippets"
+	],
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"extensionKind": [
+		"workspace",
+		"ui"
+	],
+	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "inote",
+					"title": "inote",
+					"icon": "res/icon.svg"
+				}
+			]
+		},
+		"views": {
+			"inote": [
+				{
+					"name": "explorer",
+					"id": "noteExplorer",
+					"icon": "res/icon.svg"
+				}
+			]
+		},
+		"viewsWelcome": [
+			{
+				"view": "noteExplorer",
+				"contents": "No note found.\n[Configure Location](command:noteExplorer.settings)"
+			}
+		],
+		"commands": [
+			{
+				"command": "noteExplorer.settings",
+				"category": "inote",
+				"title": "Settings",
+				"icon": "$(settings-gear)"
+			},
+			{
+				"command": "noteExplorer.refreshExplorer",
+				"category": "inote",
+				"title": "Refresh",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "noteExplorer.openFile",
+				"category": "inote",
+				"title": "Open File",
+				"icon": "$(file)"
+			},
+			{
+				"command": "noteExplorer.addFile",
+				"category": "inote",
+				"title": "New File",
+				"icon": "$(new-file)"
+			},
+			{
+				"command": "noteExplorer.addFolder",
+				"category": "inote",
+				"title": "New Folder",
+				"icon": "$(new-folder)"
+			},
+			{
+				"command": "noteExplorer.renameFile",
+				"category": "inote",
+				"title": "Rename File",
+				"icon": "$(file)"
+			},
+			{
+				"command": "noteExplorer.renameFolder",
+				"category": "inote",
+				"title": "Rename Folder",
+				"icon": "$(folder)"
+			},
+			{
+				"command": "noteExplorer.deleteFile",
+				"category": "inote",
+				"title": "Delete File",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "noteExplorer.deleteFolder",
+				"category": "inote",
+				"title": "Delete Folder",
+				"icon": "$(trash)"
+			}
+		],
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "noteExplorer.settings",
+					"when": "true"
+				},
+				{
+					"command": "noteExplorer.refreshExplorer",
+					"when": "true"
+				},
+				{
+					"command": "noteExplorer.openFile",
+					"when": "false"
+				},
+				{
+					"command": "noteExplorer.addFile",
+					"when": "false"
+				},
+				{
+					"command": "noteExplorer.addFolder",
+					"when": "false"
+				},
+				{
+					"command": "noteExplorer.renameFile",
+					"when": "false"
+				},
+				{
+					"command": "noteExplorer.renameFolder",
+					"when": "false"
+				},
+				{
+					"command": "noteExplorer.deleteFile",
+					"when": "false"
+				},
+				{
+					"command": "noteExplorer.deleteFolder",
+					"when": "false"
+				}
+			],
+			"view/title": [
+				{
+					"command": "noteExplorer.settings",
+					"when": "view == noteExplorer",
+					"group": "navigation"
+				},
+				{
+					"command": "noteExplorer.refreshExplorer",
+					"when": "view == noteExplorer",
+					"group": "navigation"
+				},
+				{
+					"command": "noteExplorer.addFile",
+					"when": "view == noteExplorer",
+					"group": "navigation"
+				},
+				{
+					"command": "noteExplorer.addFolder",
+					"when": "view == noteExplorer",
+					"group": "navigation"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "noteExplorer.openFile",
+					"group": "navigation@1",
+					"when": "view == noteExplorer && viewItem == file"
+				},
+				{
+					"command": "noteExplorer.renameFile",
+					"group": "navigation@2",
+					"when": "view == noteExplorer && viewItem == file"
+				},
+				{
+					"command": "noteExplorer.deleteFile",
+					"group": "navigation@3",
+					"when": "view == noteExplorer && viewItem == file"
+				},
+				{
+					"command": "noteExplorer.addFile",
+					"group": "navigation@1",
+					"when": "view == noteExplorer && viewItem == folder"
+				},
+				{
+					"command": "noteExplorer.addFolder",
+					"group": "navigation@1",
+					"when": "view == noteExplorer && viewItem == folder"
+				},
+				{
+					"command": "noteExplorer.renameFolder",
+					"group": "navigation@2",
+					"when": "view == noteExplorer && viewItem == folder"
+				},
+				{
+					"command": "noteExplorer.deleteFolder",
+					"group": "navigation@3",
+					"when": "view == noteExplorer && viewItem == folder"
+				}
+			]
+		},
+		"configuration": [
+			{
+				"title": "VSCodeINote",
+				"properties": {
+					"inote.location": {
+						"markdownDescription": "Set the path of your note or snippets folder. Ex: ``~/Note/``",
+						"type": "string",
+						"default": ""
+					},
+					"inote.exclude": {
+						"markdownDescription": "Set additional files and folders to exclude from listing in note explorer. Inherits from `#files.exclude#`.",
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"default": [
+							".DS_Store"
+						]
+					}
+				}
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.89.0",
+		"@types/mocha": "^10.0.6",
+		"@types/node": "18.x",
+		"@typescript-eslint/eslint-plugin": "^7.11.0",
+		"@typescript-eslint/parser": "^7.11.0",
+		"eslint": "^8.57.0",
+		"typescript": "^5.4.5",
+		"@vscode/test-cli": "^0.0.9",
+		"@vscode/test-electron": "^2.4.0"
+	}
+}
