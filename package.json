@@ -1,6 +1,6 @@
 {
 	"name": "vscode-inote",
-	"displayName": "VSCodeINote",
+	"displayName": "inote",
 	"description": "我的笔记是一个VSCode扩展它是在 https://github.com/mateussouzaweb/vscode-notes-box 的基础上做的二次开发",
 	"version": "0.0.1",
 	"icon": "res/logo.png",
@@ -18,8 +18,9 @@
 		"vscode": "^1.70.0"
 	},
 	"categories": [
-		"Other",
-		"Snippets"
+		"Notebooks",
+		"Snippets",
+		"Other"
 	],
 	"activationEvents": [
 		"onStartupFinished"
@@ -216,7 +217,7 @@
 		},
 		"configuration": [
 			{
-				"title": "VSCodeINote",
+				"title": "inote",
 				"properties": {
 					"inote.location": {
 						"markdownDescription": "Set the path of your note or snippets folder. Ex: ``~/Note/``",
