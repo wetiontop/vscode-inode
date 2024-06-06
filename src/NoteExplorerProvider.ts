@@ -1,8 +1,8 @@
 'use strict';
 
-import { readdirSync, statSync, existsSync, rename } from 'fs';
+import { readdirSync, statSync, existsSync, rename, mkdirSync } from 'fs';
 import path, { join } from 'path';
-import { Event, EventEmitter, TreeItem, FileType, TreeItemCollapsibleState, Uri, TreeDataProvider, workspace } from 'vscode';
+import { Event, EventEmitter, TreeItem, FileType, TreeItemCollapsibleState, Uri, TreeDataProvider, workspace, commands } from 'vscode';
 import { getRootPath, isInExclusionList } from './util';
 import { log } from 'console';
 
@@ -16,11 +16,16 @@ export class NoteExplorerProvider implements TreeDataProvider<NoteTreeItem> {
     private _onDidChangeTreeData: EventEmitter<NoteTreeItem | undefined | void> = new EventEmitter<NoteTreeItem | undefined | void>();
     readonly onDidChangeTreeData: Event<NoteTreeItem | undefined | void> = this._onDidChangeTreeData.event;
 
+    constructor() {
+        this.checkRootPath();
+    }
+
     /**
      * Refresh tree view
      */
     refresh(): void {
         this._onDidChangeTreeData.fire();
+        this.checkRootPath();
     }
 
     /**
@@ -47,10 +52,12 @@ export class NoteExplorerProvider implements TreeDataProvider<NoteTreeItem> {
             folder = join(workspaceRoot, element.relative);
         }
 
-        return Promise.resolve(this.readDirectory(
-            workspaceRoot,
-            folder
-        ));
+        let treeItems = this.readDirectory(workspaceRoot, folder);
+        if (workspaceRoot === folder) {
+            // 按需显示Create First Note
+            this.checkTreeItems(treeItems.length);
+        }
+        return Promise.resolve(treeItems);
     }
 
     /**
@@ -135,16 +142,23 @@ export class NoteExplorerProvider implements TreeDataProvider<NoteTreeItem> {
         this.refresh();
     }
 
-    // 应用图标主题的函数
-    applyIconTheme() {
-        const iconTheme = workspace.getConfiguration('workbench').get('iconTheme');
-        if (iconTheme === 'my-custom-icon-theme') {
-            // 这里添加应用自定义图标主题的代码
-            // 例如，可以是设置一个全局变量或者发送通知等
-            console.log('Custom icon theme applied.');
-        } else {
-            // 取消应用自定义图标主题
-            console.log('Custom icon theme not applied.');
+    /**
+     * 检查日志根目录配置
+     */
+    private checkRootPath(): void {
+        let rootPath = getRootPath();
+        if (!rootPath) {
+            // 不显示Create First Note
+            this.checkTreeItems(1);
         }
+        commands.executeCommand('setContext', 'rootPath', !rootPath);
+    }
+
+    /**
+     * 检查是否有笔记
+     * @param count 
+     */
+    private checkTreeItems(count: number): void {
+        commands.executeCommand('setContext', 'treeItems', !count);
     }
 }

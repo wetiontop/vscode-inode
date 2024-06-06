@@ -1,10 +1,11 @@
 {
 	"name": "vscode-inote",
 	"displayName": "VSCodeINote",
-	"description": "我的笔记",
+	"description": "我的笔记是一个VSCode扩展它是在 https://github.com/mateussouzaweb/vscode-notes-box 的基础上做的二次开发",
 	"version": "0.0.1",
 	"icon": "res/logo.png",
 	"main": "./out/extension.js",
+	"publisher": "wetiontop",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/wetiontop/vscode-inode"
@@ -14,7 +15,7 @@
 		"email": "wetiontop@gmail.com"
 	},
 	"engines": {
-		"vscode": "^1.89.0"
+		"vscode": "^1.70.0"
 	},
 	"categories": [
 		"Other",
@@ -49,7 +50,13 @@
 		"viewsWelcome": [
 			{
 				"view": "noteExplorer",
-				"contents": "No note found.\n[Configure Location](command:noteExplorer.settings)"
+				"contents": "No note found.\n[Configure Location](command:noteExplorer.settings)",
+				"when": "rootPath"
+			},
+			{
+				"view": "noteExplorer",
+				"contents": "No note found.\n[Create First Note](command:noteExplorer.addFile)",
+				"when": "treeItems"
 			}
 		],
 		"commands": [
@@ -238,7 +245,7 @@
 		"lint": "eslint src --ext ts"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.89.0",
+		"@types/vscode": "^1.70.0",
 		"@types/mocha": "^10.0.6",
 		"@types/node": "18.x",
 		"@typescript-eslint/eslint-plugin": "^7.11.0",
